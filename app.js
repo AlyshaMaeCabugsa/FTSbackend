@@ -11,7 +11,7 @@ const resetApplications = require('./utils/resetApplication.js');
 
 const app = express();
 
-
+module.exports = app;
 
 // CORS and Body Parsing Middlewares
 app.use(cors({ origin: 'http://localhost:3000' }));
@@ -62,6 +62,11 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .catch(e => {
     console.error("Database connection error:", e);
     process.exit(1); // Exit with an error
+  });
+
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Application specific logging, throwing an error, or other logic here
   });
 
 // Additional Models
